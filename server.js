@@ -3,16 +3,27 @@ const http = require('http');
 const server = http.createServer((req, res) => {
   console.log(`${req.method} ${req.url}`);
 
+  // ===== Building the data in packets
+
   let reqBody = "";
   req.on("data", (data) => {
     reqBody += data;
   });
 
+  // ===== when done building we handle the data
+
   req.on("end", () => {
+
+
     // Parse the body of the request as JSON if Content-Type header is
       // application/json
+
+
+
     // Parse the body of the request as x-www-form-urlencoded if Content-Type
       // header is x-www-form-urlencoded
+
+
     if (reqBody) {
       req.body = reqBody
         .split("&")
@@ -33,6 +44,9 @@ const server = http.createServer((req, res) => {
     };
 
     // Return the `resBody` object as JSON in the body of the response
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    return res.end(JSON.stringify(resBody));
   });
 });
 
